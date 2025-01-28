@@ -45,8 +45,6 @@ def add_todo(todo: str):
     todo_time_btn = ctk.CTkButton(todo_frame, 25,25, fg_color="green", hover_color="green" ,text="", command=lambda:change_time_to_complete(todo_time_btn))
     todo_time_btn.grid(column=0, row=0, padx=(0,5))
 
-    save_todos()
-
 
 def load_saved_todos():
     with open("todos.txt", "r") as file:
@@ -59,25 +57,19 @@ def load_saved_todos():
 def save_todos():
     todos_list = []
 
-    no_todos = False
-
     # get todos
     for widget in root.winfo_children():
         if isinstance(widget, ctk.CTkFrame):
             for nested_widget in widget.winfo_children():
                 if isinstance(nested_widget, ctk.CTkEntry):
                     todos_list.append(nested_widget.get())
-                    no_todos = False
-                else:
-                    no_todos = True
+
 
     # write todos to file
-    with open("todos.txt", "r+") as file:
-        if no_todos == True:
-            file.truncate(0)
-        else:
-            for todo in todos_list:
-                file.write(todo + "\n")
+    with open("todos.txt", "w") as file:
+        for todo in todos_list:
+            file.write(todo + "\n")
+
 
 
 def close_application_and_save():
