@@ -1,5 +1,6 @@
 # MinimalDo ✅
 A minimal To Do application that is very lightweight and easy to use. 
+![Showcase of the application.](https://github.com/alexiiko/minimaldo/blob/main/showcase.png)
 ## How to run 🔄
 ### Building it yourself
 1. Install [customtkinter](https://customtkinter.tomschimansky.com/).
