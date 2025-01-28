@@ -39,7 +39,19 @@ def add_todo():
     todo_frame.pack(pady=7)
 
 def save_todos():
-    pass
+    todos_list = []
+    for widget in root.winfo_children():
+        if isinstance(widget, ctk.CTkFrame):
+            for nested_widget in widget.winfo_children():
+                if isinstance(nested_widget, ctk.CTkEntry):
+                    todos_list.append(nested_widget.get())
+
+    def write_todos_to_file():
+        with open("app/todos.txt", "r+") as file:
+            for todo in todos_list:
+                file.write(todo + "\n")
+
+    write_todos_to_file()
 
 main_btns_frame = ctk.CTkFrame(root)
 
