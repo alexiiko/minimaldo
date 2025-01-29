@@ -9,9 +9,6 @@ root.geometry("500x500")
 root.resizable(False,False)
 
 def add_todo(todo: str):
-    def delete_todo():
-        todo_frame.destroy()
-
     def complete_todo():
         todo_frame.destroy()
 
@@ -35,9 +32,6 @@ def add_todo(todo: str):
     todo_entry = ctk.CTkEntry(todo_frame, width=200)
     todo_entry.insert(0, todo)
     todo_entry.grid(column=1, row=0)
-
-    todo_delete_btn = ctk.CTkButton(todo_frame, 25,25, text="🗑", command=delete_todo)
-    todo_delete_btn.grid(column=2, row=0, padx=(5,0))
 
     todo_complete_btn = ctk.CTkButton(todo_frame, 25,25, text="✔", command=complete_todo)
     todo_complete_btn.grid(column=3, row=0, padx=(5,0))
