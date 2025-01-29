@@ -95,6 +95,10 @@ def save_todos_time():
         for todos_time in todos_time_list:
             file.write(todos_time + "\n")
 
+def add_todo_on_enter(event):
+    if event.keysym == "Return":
+        add_todo("", "green")
+
 
 def close_application_and_save():
     save_todos()
@@ -110,5 +114,6 @@ add_todo_btn.grid(column=0, row=0)
 
 
 load_saved_todos()
+root.bind("<KeyRelease>", add_todo_on_enter)
 root.protocol("WM_DELETE_WINDOW", close_application_and_save)
 root.mainloop()
