@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import settings
 
 root = ctk.CTk()
 
@@ -109,9 +110,21 @@ def close_application_and_save():
 main_btns_frame = ctk.CTkFrame(root)
 main_btns_frame.pack(pady=5)
 
-add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
-add_todo_btn.grid(column=0, row=0)
-
+if settings.APPLICATION_LANGUAGE == "EN":
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn.grid(column=0, row=0)
+elif settings.APPLICATION_LANGUAGE == "DE":
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn.grid(column=0, row=0)
+elif settings.APPLICATION_LANGUAGE == "ES":
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Agregar tarea", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn.grid(column=0, row=0)
+elif settings.APPLICATION_LANGUAGE == "CH":
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="添加任务", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn.grid(column=0, row=0)
+else:
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn.grid(column=0, row=0)
 
 load_saved_todos()
 root.bind("<KeyRelease>", add_todo_on_enter)
