@@ -8,7 +8,7 @@ root.geometry("500x500")
 
 root.resizable(False,False)
 
-def add_todo(todo: str):
+def add_todo(todo: str, fg_color: str):
     def complete_todo():
         todo_frame.destroy()
 
@@ -36,16 +36,17 @@ def add_todo(todo: str):
     todo_complete_btn = ctk.CTkButton(todo_frame, 25,25, text="✔", command=complete_todo)
     todo_complete_btn.grid(column=3, row=0, padx=(5,0))
 
-    todo_time_btn = ctk.CTkButton(todo_frame, 25,25, fg_color="green", hover_color="green" ,text="", command=lambda:change_time_to_complete(todo_time_btn))
+    todo_time_btn = ctk.CTkButton(todo_frame, 25,25, fg_color=fg_color, hover_color=fg_color,text="", command=lambda:change_time_to_complete(todo_time_btn))
     todo_time_btn.grid(column=0, row=0, padx=(0,5))
 
 
 def load_saved_todos():
     with open("todos.txt", "r") as file:
         todos = [line.strip() for line in file.readlines()]
-        
-        for todo in todos:
-            add_todo(todo)
+        todos_time = load_saved_todos_time()
+
+        for todo_index in range(len(todos)):
+            add_todo(todos[todo_index], todos_time[todo_index])
 
 
 def save_todos():
@@ -65,16 +66,46 @@ def save_todos():
             file.write(todo + "\n")
 
 
+def load_saved_todos_time():
+    with open("todos_time.txt", "r") as file:
+        todos_time = [line.strip() for line in file.readlines()]
+
+    return todos_time
+
+
+def save_todos_time():
+    all_buttons_list = []
+
+    # get todos_time
+    for widget in root.winfo_children():
+        if isinstance(widget, ctk.CTkFrame):
+            for nested_widget in widget.winfo_children():
+                if isinstance(nested_widget, ctk.CTkButton):
+                    all_buttons_list.append(nested_widget.cget("fg_color"))
+
+    all_buttons_list.pop(0)
+
+    todos_time_list = []
+    for button_index in range(len(all_buttons_list)):
+        if button_index % 2 != 0: # every second button in the 'all button list' is the button we want
+            todos_time_list.append(all_buttons_list[button_index])
+
+    # write colors to file    
+    with open("todos_time.txt", "w") as file:
+        for todos_time in todos_time_list:
+            file.write(todos_time + "\n")
+
 
 def close_application_and_save():
     save_todos()
+    save_todos_time()
     root.destroy()
 
 
 main_btns_frame = ctk.CTkFrame(root)
 main_btns_frame.pack(pady=5)
 
-add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo(""), bg_color="#f0ecec")
+add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
 add_todo_btn.grid(column=0, row=0)
 
 
