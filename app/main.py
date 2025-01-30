@@ -3,28 +3,28 @@ import settings
 
 root = ctk.CTk()
 
-root.title("MinimalDo")
+root.title(settings.APPLICATION_TITLE)
 
-root.geometry("500x500")
+root.geometry(f"{settings.APPLICATION_WIDTH}x{settings.APPLICATION_HEIGHT}")
 
-root.resizable(False,False)
+root.resizable(False,False) if settings.APPLICATION_RESIZABLE == False else root.resizable(True, True)
 
 def add_todo(todo: str, fg_color: str):
     def complete_todo():
         todo_frame.destroy()
 
     def change_time_to_complete(button):
-        fg_color = button.cget("fg_color")
+        button_fg_color = button.cget("fg_color")
 
-        if fg_color == "green":
-            button.configure(fg_color="yellow")
-            button.configure(hover_color="yellow")
-        elif fg_color == "yellow":
-            button.configure(fg_color="red")
-            button.configure(hover_color="red")
-        elif fg_color == "red":
-            button.configure(fg_color="green")
-            button.configure(hover_color="green")
+        if button_fg_color == settings.TODO_SMALL_COLOR:
+            button.configure(fg_color=settings.TODO_MEDIUM_COLOR)
+            button.configure(hover_color=settings.TODO_MEDIUM_COLOR)
+        elif button_fg_color == settings.TODO_MEDIUM_COLOR:
+            button.configure(fg_color=settings.TODO_LARGE_COLOR)
+            button.configure(hover_color=settings.TODO_LARGE_COLOR)
+        elif button_fg_color == settings.TODO_LARGE_COLOR:
+            button.configure(fg_color=settings.TODO_SMALL_COLOR)
+            button.configure(hover_color=settings.TODO_SMALL_COLOR)
 
 
     todo_frame = ctk.CTkFrame(root)
@@ -84,7 +84,7 @@ def save_todos_time():
                 if isinstance(nested_widget, ctk.CTkButton):
                     all_buttons_list.append(nested_widget.cget("fg_color"))
 
-    all_buttons_list.pop(0)
+    all_buttons_list.pop(0) # first entry is the add todo button
 
     todos_time_list = []
     for button_index in range(len(all_buttons_list)):
@@ -98,7 +98,7 @@ def save_todos_time():
 
 def add_todo_on_enter(event):
     if event.keysym == "Return":
-        add_todo("", "green")
+        add_todo("", settings.TODO_SMALL_COLOR)
 
 
 def close_application_and_save():
@@ -111,19 +111,19 @@ main_btns_frame = ctk.CTkFrame(root)
 main_btns_frame.pack(pady=5)
 
 if settings.APPLICATION_LANGUAGE == "EN":
-    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", settings.TODO_SMALL_COLOR), bg_color="#f0ecec")
     add_todo_btn.grid(column=0, row=0)
 elif settings.APPLICATION_LANGUAGE == "DE":
-    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Aufgabe hinzufügen", command=lambda:add_todo("", settings.TODO_SMALL_COLOR), bg_color="#f0ecec")
     add_todo_btn.grid(column=0, row=0)
 elif settings.APPLICATION_LANGUAGE == "ES":
-    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Agregar tarea", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Agregar tarea", command=lambda:add_todo("", settings.TODO_SMALL_COLOR), bg_color="#f0ecec")
     add_todo_btn.grid(column=0, row=0)
 elif settings.APPLICATION_LANGUAGE == "CH":
-    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="添加任务", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="添加任务", command=lambda:add_todo("", settings.TODO_SMALL_COLOR), bg_color="#f0ecec")
     add_todo_btn.grid(column=0, row=0)
 else:
-    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", "green"), bg_color="#f0ecec")
+    add_todo_btn = ctk.CTkButton(main_btns_frame, 100, 50, text="Add task", command=lambda:add_todo("", settings.TODO_SMALL_COLOR), bg_color="#f0ecec")
     add_todo_btn.grid(column=0, row=0)
 
 load_saved_todos()
