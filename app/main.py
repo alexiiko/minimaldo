@@ -13,7 +13,7 @@ def add_todo(todo: str, fg_color: str):
     def complete_todo():
         todo_frame.destroy()
 
-    def change_time_to_complete(button):
+    def change_todo_size(button):
         button_fg_color = button.cget("fg_color")
 
         if button_fg_color == settings.TODO_SMALL_COLOR:
@@ -37,17 +37,17 @@ def add_todo(todo: str, fg_color: str):
     todo_complete_btn = ctk.CTkButton(todo_frame, 25,25, text="✔", command=complete_todo)
     todo_complete_btn.grid(column=3, row=0, padx=(5,0))
 
-    todo_time_btn = ctk.CTkButton(todo_frame, 25,25, fg_color=fg_color, hover_color=fg_color,text="", command=lambda:change_time_to_complete(todo_time_btn))
-    todo_time_btn.grid(column=0, row=0, padx=(0,5))
+    todo_size_btn = ctk.CTkButton(todo_frame, 25,25, fg_color=fg_color, hover_color=fg_color,text="", command=lambda:change_todo_size(todo_size_btn))
+    todo_size_btn.grid(column=0, row=0, padx=(0,5))
 
 
 def load_saved_todos():
     with open("todos.txt", "r") as file:
         todos = [line.strip() for line in file.readlines()]
-        todos_time = load_saved_todos_time()
+        todos_size = load_saved_todos_size()
 
         for todo_index in range(len(todos)):
-            add_todo(todos[todo_index], todos_time[todo_index])
+            add_todo(todos[todo_index], todos_size[todo_index])
 
 
 def save_todos():
@@ -67,17 +67,17 @@ def save_todos():
             file.write(todo + "\n")
 
 
-def load_saved_todos_time():
-    with open("todos_time.txt", "r") as file:
-        todos_time = [line.strip() for line in file.readlines()]
+def load_saved_todos_size():
+    with open("todos_size.txt", "r") as file:
+        todos_size = [line.strip() for line in file.readlines()]
 
-    return todos_time
+    return todos_size
 
 
-def save_todos_time():
+def save_todos_size():
     all_buttons_list = []
 
-    # get todos_time
+    # get todos_size
     for widget in root.winfo_children():
         if isinstance(widget, ctk.CTkFrame):
             for nested_widget in widget.winfo_children():
@@ -86,15 +86,15 @@ def save_todos_time():
 
     all_buttons_list.pop(0) # first entry is the add todo button
 
-    todos_time_list = []
+    todos_size_list = []
     for button_index in range(len(all_buttons_list)):
         if button_index % 2 != 0: # every second button in the 'all button list' is the button we want
-            todos_time_list.append(all_buttons_list[button_index])
+            todos_size_list.append(all_buttons_list[button_index])
 
     # write colors to file    
-    with open("todos_time.txt", "w") as file:
-        for todos_time in todos_time_list:
-            file.write(todos_time + "\n")
+    with open("todos_size.txt", "w") as file:
+        for todos_size in todos_size_list:
+            file.write(todos_size + "\n")
 
 def add_todo_on_enter(event):
     if event.keysym == "Return":
@@ -103,7 +103,7 @@ def add_todo_on_enter(event):
 
 def close_application_and_save():
     save_todos()
-    save_todos_time()
+    save_todos_size()
     root.destroy()
 
 
