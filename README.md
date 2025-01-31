@@ -12,5 +12,5 @@ A minimal To Do application that is very lightweight and easy to use.
 2. Run the executable.
 ## Used technologies 🖥️
 - [customtkinter](https://customtkinter.tomschimansky.com/)
-# Support
+# Support 🛠️
 - There currently is no support for executable files for Linux and macOS.
